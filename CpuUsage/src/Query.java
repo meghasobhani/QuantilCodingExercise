@@ -81,6 +81,7 @@ public class Query {
 			}
 			if(ipCount == ipFalse)
 				System.out.println("Ip or timestamp not found in logs");
+			
 			bufferedReader.close();  
 			fileReader.close();    //Closes the file reader
 			int i=0;
@@ -114,6 +115,8 @@ public class Query {
 	//Prints the query result on console   
 	public  void printResult(String ip){	
 		int i=0;
+		if(timeStamp[i]==null)
+			return;
 		System.out.println("CPU usage on "+ip+":");
 		while(timeStamp[i] != null)
 		{
