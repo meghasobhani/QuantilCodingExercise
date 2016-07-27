@@ -23,9 +23,9 @@ public class Query {
 	String datapath;
 	String dateAtStart,dateAtEnd;
 
-	private static long[] result = new long[100] ;
-	private static String[] usage = new String[100];
-	private static String[] timeStamp = new String[100] ;
+	private static long[] result = new long[1444] ;
+	private static String[] usage = new String[1444];
+	private static String[] timeStamp = new String[1444] ;
 	//Constructor taking all input arguments for query like ip,startDate and time, endDate and time and datapath of log file to be readed
 	public Query(String path,String ip,String cpu,String startDate, String startTime, String endDate, String endTime) throws ParseException{
 		this.ip = ip;
