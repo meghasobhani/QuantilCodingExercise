@@ -9,7 +9,7 @@ cd CpuUsage/src
 
 Example : ./generate.sh C:\\Users\\Megha\\Documents\\Log.txt
 Creates log for one day (24 hours past) from the time executed
-
+Ip addresses in the log file : (192.168.1.0 to 192.168.1.255, 192.168.2.0 to 192.168.2.255, 192.168.3.0 to 192.168.3.255, 192.168.4.0 to 192.168.4.231)
 ./query.sh DATA_PATH
 
 Example : ./query.sh C:\\Users\\Megha\\Documents\\Log.txt
