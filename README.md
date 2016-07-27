@@ -1,7 +1,7 @@
 # QuantilCodingExercise
 Server Cpu Usage Simulator
 
-
+Go to the terminal (Linux terminal or Git Bash on windows and follow the steps below for execution)
 cd CpuUsage/src
 
 ./generate.sh DATA_PATH
