@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,8 +10,19 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.SortedSet;
 import java.util.TimeZone;
+import java.util.TreeSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+//import javax.swing.text.html.HTMLDocument.Iterator;
+
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
@@ -23,9 +35,10 @@ public class Query {
 	String datapath;
 	String dateAtStart,dateAtEnd;
 
-	private static long[] result = new long[1444] ;
-	private static String[] usage = new String[1444];
-	private static String[] timeStamp = new String[1444] ;
+	private Set<Long>  result = new HashSet<Long>();
+	private HashMap<String,String> timeUsage = new HashMap<String,String>();
+	private List<String>  usage = new LinkedList<String>();
+	private SortedSet<String>  timeStamp = new TreeSet<String>();
 	//Constructor taking all input arguments for query like ip,startDate and time, endDate and time and datapath of log file to be readed
 	public Query(String path,String ip,String cpu,String startDate, String startTime, String endDate, String endTime) throws ParseException{
 		this.ip = ip;
@@ -51,10 +64,10 @@ public class Query {
 			int start = Integer.parseInt(dateAtStart);   //Starting timestamp
 			int end = Integer.parseInt(dateAtEnd);       //Ending timestamp
 			line= bufferedReader.readLine();
-			for(int i=0;i<result.length;i++)
-			{	result[i]=0;
-				timeStamp[i]=null;
-			}
+//			for(int i=0;i<result.length;i++)
+//			{	result[i]=0;
+//				timeStamp[i]=null;
+//			}
 			int index=0;
 			int ind=0;
 			int ipCount = 0;
@@ -69,8 +82,9 @@ public class Query {
 				ipCount++;
 				if(line.contains(" "+ip+" ") && line.contains(" "+cpu+" ") && timesection >start && timesection < end) 
 				{	
-					result[index]=timesection;
-					usage[ind]=cpuUsage;
+					//result[index]=timesection;
+					result.add((long) timesection);
+					usage.add(cpuUsage);
 					index++;
 					ind++;
 				}
@@ -84,16 +98,16 @@ public class Query {
 			
 			bufferedReader.close();  
 			fileReader.close();    //Closes the file reader
-			int i=0;
-			while(result[i] != 0)
+			// i=0;
+			for(Long str: result)
 			{
-				timeStamp[i] = unixToDate(result[i]);   //Stores the timestamps found corresponding to query IP
-				i++;
+				timeStamp.add(unixToDate(str));   //Stores the timestamps found corresponding to query IP
+				//i++;
 			}
 		
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			
 		}		
 	}
 	//Converts unix timestamp tp Date and Time in format yyyy-MM-dd H:mm
@@ -114,16 +128,25 @@ public class Query {
 	}
 	//Prints the query result on console   
 	public  void printResult(String ip){	
-		int i=0;
-		if(timeStamp[i]==null)
+	
+		if(timeStamp.isEmpty())
 			return;
+		
+		
+		else{
 		System.out.println("CPU usage on "+ip+":");
-		while(timeStamp[i] != null)
+		 Iterator <String>it1 =  timeStamp.iterator();
+		 Iterator<String> it2 = usage.iterator();
+		
+		while(it1.hasNext()&&it2.hasNext())
 		{
-			System.out.print("("+timeStamp[i] +","+ usage[i]+"%),");  //Timestamp and usage corresponding to the server IP and cpu id
-			i++;
+			
+	
+			System.out.print("("+it1.next() +","+ it2.next()+"%),");  //Timestamp and usage corresponding to the server IP and cpu id
+			
 		}
 		System.out.println("\n");
+		}
 	}
 	public static void main(String[] args) throws ParseException{
 		Scanner sc = new Scanner(System.in);
@@ -145,12 +168,13 @@ public class Query {
 		    }
 		    
 		    catch(Exception e){
+		    	
 		    	System.out.println("Please input appropriate query");
+		    	
 		    }
-		}		 
+		    }		 
 		}
 	}
-
 }
 
 
